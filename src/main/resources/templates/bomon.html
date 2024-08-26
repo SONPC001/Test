@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <h1>Quản lý bộ môn/chuyên ngành</h1>
+    <form th:action="@{/staffs/bm-cn}" method="post">
+        <div class="card" th:object="${staff}">
+            <div class="card-header">
+                Thông tin nhân viên
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="id">ID:</label>
+                        <input type="text" class="form-control" id="id" th:field="*{id}" readonly>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="staffCode">Mã:</label>
+                        <input type="text" class="form-control" id="staffCode" th:field="*{staffCode}">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="name">Tên:</label>
+                        <input type="text" class="form-control" id="name" th:field="*{name}">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="accountFpt">Email FPT:</label>
+                        <input type="email" class="form-control" id="accountFpt" th:field="*{accountFpt}">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="accountFe">Email FE:</label>
+                        <input type="email" class="form-control" id="accountFe" th:field="*{accountFe}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h2>Thêm bộ môn chuyên ngành</h2>
+        <div class="mb-3">
+            <label for="coso" class="form-label">Cơ sở</label>
+            <select class="form-select" id="coso" name="coso">
+                <option th:each="coso : ${cosos}" th:value="${coso.id}" th:text="${coso.name}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="bomon" class="form-label">Bộ môn</label>
+            <select class="form-select" id="bomon" name="bomon">
+                <option th:each="bomon : ${bomons}" th:value="${bomon.id}" th:text="${bomon.name}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="chuyennganh" class="form-label">Chuyên ngành</label>
+            <select class="form-select" id="chuyennganh" name="chuyennganh">
+                <option th:each="cn : ${chuyennganhs}" th:value="${cn.id}" th:text="${cn.name}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Lưu</button>
+    </form>
+
+    <div class="card mt-3">
+        <div class="card-header">
+            Danh sách bộ môn, chuyên ngành theo cơ sở
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th colspan="1">STT</th>
+                    <th colspan="2">Cơ sở</th>
+                    <th colspan="2">Bộ môn</th>
+                    <th colspan="2">Chuyên ngành</th>
+                    <th>Hành động</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="bc, iStat : ${bn_cn}">
+                    <td colspan="1" th:text="${iStat.index+1}">STT</td>
+                    <td colspan="2" th:text="${bc.idMajorFacility.idDepartmentFacility.idFacility.name}">Cơ sở</td>
+                    <td colspan="2" th:text="${bc.idMajorFacility.idDepartmentFacility.idDepartment.name}">Bộ môn</td>
+                    <td colspan="2" th:text="${bc.idMajorFacility.idMajor.name}">Chuyên ngành</td>
+                    <td>
+                        <button class="btn btn-sm btn-dark">Cập nhật</button>
+                        <button class="btn btn-sm btn-dark">Xóa</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <p class="text-muted">*** Chú ý: Nhân viên chỉ có một bộ môn và một chuyên ngành trong một cơ sở ***</p>
+        </div>
+    </div>
+
+
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
+
